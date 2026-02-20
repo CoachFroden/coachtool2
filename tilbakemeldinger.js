@@ -36,7 +36,7 @@ onAuthStateChanged(auth, async (user) => {
 
   if (!snap.exists() || snap.data().role !== "coach") {
     alert("Kun trener har tilgang.");
-    window.location.href = "../index.html";
+    window.location.href = "./fremside.html";
     return;
   }
 
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (backBtn) {
     backBtn.addEventListener("click", () => {
       // Gå tilbake til coach-siden (samme mappe)
-      window.location.href = "index.html";
+      window.location.href = "fremside.html";
     });
   }
 });

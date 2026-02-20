@@ -42,7 +42,7 @@ onAuthStateChanged(auth, async (user) => {
 
   if (data.role !== "coach") {
     alert("Kun trener har tilgang.");
-    window.location.href = "../index.html";
+    window.location.href = "./fremside.html";
   }
 });
 
@@ -55,6 +55,6 @@ const logoutBtn = document.getElementById("logoutBtn");
 if (logoutBtn) {
   logoutBtn.onclick = async () => {
     await signOut(auth);
-    window.location.href = "../login.html";
+    window.location.href = "./index.html";
   };
 }

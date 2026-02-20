@@ -31,7 +31,7 @@ onAuthStateChanged(auth, async (user) => {
 
   if (!snap.exists() || snap.data().role !== "coach") {
     alert("Kun trener har tilgang.");
-    window.location.href = "../index.html";
+    window.location.href = "./fremside.html";
     return;
   }
 
