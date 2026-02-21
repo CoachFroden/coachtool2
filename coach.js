@@ -34,7 +34,8 @@ async function setupCoachPush(user) {
   try {
     if (!("serviceWorker" in navigator)) return;
 
-const swReg = await navigator.serviceWorker.register("/coachtool4/firebase-messaging-sw.js");
+const swReg = await navigator.serviceWorker.getRegistration("/coachtool4/")
+  || await navigator.serviceWorker.register("/coachtool4/firebase-messaging-sw.js");
     const permission = await Notification.requestPermission();
     if (permission !== "granted") return;
 
@@ -82,7 +83,34 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   // ✅ Riktig sted: bare coach
-  await setupCoachPush(user);
+ // await setupCoachPush(user);
+ 
+ // iOS/PWA: permission må trigges av brukerhandling
+if (!document.getElementById("enablePushBtn")) {
+  const btn = document.createElement("button");
+  btn.id = "enablePushBtn";
+  btn.textContent = "Aktiver varsler";
+  btn.style.padding = "10px 14px";
+  btn.style.borderRadius = "10px";
+  btn.style.cursor = "pointer";
+  btn.style.margin = "12px";
+
+  const status = document.createElement("div");
+  status.id = "pushStatus";
+  status.style.margin = "0 12px 12px";
+  status.style.opacity = "0.8";
+  status.style.fontSize = "0.95rem";
+  status.textContent = `Status: Notification.permission = ${Notification.permission}`;
+
+  document.body.prepend(status);
+  document.body.prepend(btn);
+
+  btn.addEventListener("click", async () => {
+    status.textContent = "Status: prøver å aktivere varsler…";
+    await setupCoachPush(user);
+    status.textContent = `Status: Notification.permission = ${Notification.permission} (sjekk adminTokens)`;
+  });
+}
 });
 
 /* ==============================
