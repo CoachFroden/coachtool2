@@ -14,13 +14,16 @@ const firebaseConfig = {
 // ✅ VIKTIG
 firebase.initializeApp(firebaseConfig);
 
-const messaging = firebase.messaging();
+self.addEventListener("push", function(event) {
+  if (!event.data) return;
 
-messaging.onBackgroundMessage(function(payload) {
-  const { title, body } = payload.data;
+  const payload = event.data.json();
+  const { title, body } = payload.data || {};
 
-  self.registration.showNotification(title, {
-    body: body,
-    icon: "/icons/icon-192.png"
-  });
+  event.waitUntil(
+    self.registration.showNotification(title || "Varsel", {
+      body: body || "",
+      icon: "/icons/icon-192.png"
+    })
+  );
 });
